@@ -22,5 +22,12 @@ public class Medico {
     private Especialidade especialidade;
     @Embedded
     private Endereco endereco;
-
+    // CRIANDO UM CONSTRUTOR QUE RECEBE DTO
+    public Medico(DadosCadastroMedico dados) {
+        this.nome = dados.nome();
+        this.email = dados.email();
+        this.crm = dados.crm();
+        this.especialidade = dados.especialidade();
+        this.endereco = new Endereco(dados.endereco());
+    }
 }
