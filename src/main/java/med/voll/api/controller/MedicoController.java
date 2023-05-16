@@ -9,6 +9,7 @@ import med.voll.api.medico.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class MedicoController {
     }
     @GetMapping
     // Não será necessário a anotação @Transactional, pois não haverá envios ou alterações para nossa tabela
-    public Page<DadosListagensMedico> listar(Pageable pageable){ // gerando uma sobrecarga com pageable
+    public Page<DadosListagensMedico> listar(@PageableDefault(size = 10,sort = {"nome"}) Pageable pageable){ // gerando uma sobrecarga com pageable
         return repository.findAll(pageable).map(DadosListagensMedico::new);
         //operador de referência de método em Java, é usado para chamar um método referindo-se a ele
         //diretamente com a ajuda de sua classe. Eles se comportam exatamente como as expressões lambda.
