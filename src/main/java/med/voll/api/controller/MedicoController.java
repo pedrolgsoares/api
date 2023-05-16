@@ -7,6 +7,8 @@ import med.voll.api.medico.DadosListagensMedico;
 import med.voll.api.medico.Medico;
 import med.voll.api.medico.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,8 +28,8 @@ public class MedicoController {
     }
     @GetMapping
     // Não será necessário a anotação @Transactional, pois não haverá envios ou alterações para nossa tabela
-    public List<DadosListagensMedico> listar(){
-        return repository.findAll().stream().map(DadosListagensMedico::new).toList();
+    public Page<DadosListagensMedico> listar(Pageable pageable){ // gerando uma sobrecarga com pageable
+        return repository.findAll(pageable).map(DadosListagensMedico::new);
         //operador de referência de método em Java, é usado para chamar um método referindo-se a ele
         //diretamente com a ajuda de sua classe. Eles se comportam exatamente como as expressões lambda.
         //A única diferença que tem das expressões lambda é que ela usa referência direta ao método por nome
