@@ -27,7 +27,7 @@ public class MedicoController {
     @GetMapping
     // Não será necessário a anotação @Transactional, pois não haverá envios ou alterações para nossa tabela
     public Page<DadosListagensMedico> listar(@PageableDefault(size = 10,sort = {"nome"}) Pageable pageable){ // gerando uma sobrecarga com pageable
-        return repository.findAll(pageable).map(DadosListagensMedico::new);
+        return repository.findAllByAtivoTrue(pageable).map(DadosListagensMedico::new);
         //operador de referência de método em Java, é usado para chamar um método referindo-se a ele
         //diretamente com a ajuda de sua classe. Eles se comportam exatamente como as expressões lambda.
         //A única diferença que tem das expressões lambda é que ela usa referência direta ao método por nome
@@ -40,5 +40,12 @@ public class MedicoController {
         Medico medico = repository.getReferenceById(dados.id());
         medico.atualizarInformacoes(dados);
 
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void excluir(@PathVariable Long id){
+        Medico medico = repository.getReferenceById(id);
+        medico.excluir();
     }
 }
